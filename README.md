@@ -24,11 +24,11 @@ $ docker save -o c:/docker/node.tar zhangfuxing/node:latest
 $ docker save --output c:/docker/node.tar zhangfuxing/node:latest
 
 # OR
-$ docker save zhangfuxing/node:latest > c:/docker/node.tar
+$ docker save zhangfuxing/node:latest > c:/docker/node.tar  # Test in windows 10 : slower and bigger
 
 # You can use gzip to save the image file and make the backup smaller.
-$ docker save zhangfuxing/node:latest | gzip > c:/docker/node.tar.gz
-$ docker save -o c:/docker/node.tar.gz zhangfuxing/node:latest | gzip
+$ docker save zhangfuxing/node:latest | gzip > c:/docker/node.tar.gz   # Linux
+$ docker save -o c:/docker/node.tar.gz zhangfuxing/node:latest | gzip  # Linux
 ```
 
 ### load

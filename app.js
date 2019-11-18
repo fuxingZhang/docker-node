@@ -1,13 +1,13 @@
 const Koa = require('koa');
 const app = new Koa();
-const port = 3000;
-const host = '0.0.0.0';
+const logger = require('./util/logger');
+const { port, host, welcome } = require('./config');
 
 // logger
 app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.get('X-Response-Time');
-  console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+  logger.info(`${ctx.method} ${ctx.url} - ${rt}`);
 });
 
 // x-response-time
@@ -20,9 +20,9 @@ app.use(async (ctx, next) => {
 
 // response
 app.use(async ctx => {
-  ctx.body = 'Hello World';
+  ctx.body = welcome;
 });
 
 app.listen(port, host, () => {
-  console.log(`Running on http://${host}:${port}`);
+  logger.info(`Running on http://${host}:${port}`);
 });

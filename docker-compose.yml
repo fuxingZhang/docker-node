@@ -1,0 +1,45 @@
+version: "3"
+services:
+  node:
+    image: "node:12"
+    user: "node"
+    working_dir: /home/node/app
+    restart: always
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - c:\docker\config:/home/node/app/config
+      - c:\docker\logs:/home/node/app/logs
+    expose:
+      - 3000
+    command: node app.js
+    ports:
+      - 3000:3000
+
+    # deploy:
+    #   replicas: 1
+    #   update_config:
+    #     parallelism: 2  # 一次性更新的容器数量
+    #   restart_policy:
+    #     condition: on-failure
+    #     delay: 10s
+    #     max_attempts: 3
+    #     window: 120s
+
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000"]
+    #   interval: 1m30s
+    #   timeout: 10s
+    #   retries: 3
+
+    # depends_on:
+    #   - redis
+
+    # logging:
+    #   driver: "json-file"
+    #   options:
+    #     max-size: "200k"
+    #     max-file: "10"
+
+  # redis:
+  #   image: redis

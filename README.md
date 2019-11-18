@@ -91,3 +91,8 @@ $ docker load < c:/docker/node.tar.gz # gzip
 $ docker load --input c:/docker/node.tar 
 $ docker load --input c:/docker/node.tar.gz # gzip
 ```
+
+### push
+```bash
+$ docker push zhangfuxing/node:latest
+```

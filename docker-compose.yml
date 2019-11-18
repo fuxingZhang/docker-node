@@ -1,12 +1,14 @@
-version: "3"
+version: "3.7"
 services:
   node:
-    image: "node:12"
-    user: "node"
+    image: zhangfuxing/node:latest
+    container_name: node
+    user: node
     working_dir: /home/node/app
     restart: always
     environment:
       - NODE_ENV=production
+      - TZ=Asia/Shanghai
     volumes:
       - c:\docker\config:/home/node/app/config
       - c:\docker\logs:/home/node/app/logs

@@ -10,8 +10,8 @@ services:
       - NODE_ENV=production
       - TZ=Asia/Shanghai
     volumes:
-      - c:\docker\config:/home/node/app/config
-      - c:\docker\logs:/home/node/app/logs
+      - c:/docker/config:/home/node/app/config
+      - c:/docker/logs:/home/node/app/logs
     expose:
       - 3000
     command: node app.js

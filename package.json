@@ -13,7 +13,7 @@
   "author": "Zhang Fu Xing <502545703@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@zhangfuxing/logger": "^2.2.1",
+    "@zhangfuxing/logger": "^2.3.0",
     "koa": "^2.11.0"
   }
 }

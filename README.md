@@ -65,6 +65,86 @@ $ docker swarm join-token manager
 
 # Run swarm join-token --rotate to invalidate the old token and generate a new token. Specify whether you want to rotate the token for worker or manager nodes:
 $ docker swarm join-token  --rotate worker
+
+# Deploy a service to the swarm
+$ docker service create --replicas 2 -p 3000:3000 --name node-swarm zhangfuxing/node:latest
+
+# Inspect a service on the swarm
+$ docker service inspect --pretty node-swarm
+$ docker service inspect node-swarm  # JSON
+$ docker service ps node-swarm       # can see other machine, docker ps can only see this machine
+
+# Scale the service in the swarm
+$ docker service scale node-swarm=5
+
+# Delete the service running on the swarm
+$ docker service rm node-swarm
+
+# Apply rolling updates to a service
+$ docker service create \
+  --replicas 3 \
+  --name redis \
+  --publish published=8080,target=80 \  # -p 8080:80
+  --update-delay 10s \
+  redis:3.0.6
+$ docker service update --image redis:3.0.7 redis
+
+# Drain a node on the swarm
+$ docker service create \
+  -p:6379:6379 \
+  --replicas 2 \
+  --name redis-swarm \
+  --update-delay 10s \
+  redis
+$ docker service ps redis-swarm # can get NODE-NAME
+$ docker node ls  # can get NODE-ID
+$ docker node update --availability drain <NODE-NAME> # NODE-NAME or NODE-ID
+#  to return the drained node to an active state
+$ docker node update --availability active docker-desktop
+
+# You can publish a port for an existing service using the following command:
+$ docker service update \
+  --publish-add published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
+  <SERVICE>
+# You can use docker service inspect to view the service’s published port. For instance:
+$ docker service inspect --format="{{json .Endpoint.Spec.Ports}}" redis-swarm
+
+# Publish a port for TCP only or UDP only
+# TCP ONLY
+  # Long syntax:
+  $ docker service create --name dns-cache \
+    --publish published=53,target=53 \
+    dns-cache
+  # Short syntax:
+  $ docker service create --name dns-cache \
+    -p 53:53 \
+  dns-cache
+# TCP AND UDP
+  # Long syntax:
+  $ docker service create --name dns-cache \
+    --publish published=53,target=53 \
+    --publish published=53,target=53,protocol=udp \
+    dns-cache
+  # Short syntax:
+  $ docker service create --name dns-cache \
+    -p 53:53 \
+    -p 53:53/udp \
+    dns-cache
+# UDP ONLY
+# Long syntax:
+  $ docker service create --name dns-cache \
+    --publish published=53,target=53,protocol=udp \
+    dns-cache
+  # Short syntax:
+  $ docker service create --name dns-cache \
+    -p 53:53/udp \
+    dns-cache
+
+# Bypass the routing mesh
+$ docker service create --name dns-cache \
+  --publish published=53,target=53,protocol=udp,mode=host \
+  --mode global \
+  dns-cache
 ```  
 
 ### save  

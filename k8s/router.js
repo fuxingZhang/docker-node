@@ -1,8 +1,9 @@
 const upload = require('./upload');
-const exec = require('./exec');
 const {
-  parseBody
+  parseBody,
+  exec
 } = require('./utils');
+const getClient = require('./minio');
 
 async function router(req, res) {
   res.setHeader('Content-Type', 'text/plain');
@@ -17,7 +18,8 @@ async function router(req, res) {
   };
 
   try {
-    const { containers } = await parseBody(req);
+    const { containers, minioConfig } = await parseBody(req);
+    const minio = getClient(minioConfig);
 
     for (const container of containers) {
       const { id, tag, name } = container;
@@ -30,7 +32,7 @@ async function router(req, res) {
       await exec(`docker save -o ${filepath} ${tag}`);
       res.write(`save: ${name}`);
 
-      await upload(filepath, imageName);
+      await upload(filepath, imageName, minio);
       res.write(`upload: ${name}`);
     }
 

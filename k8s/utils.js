@@ -1,3 +1,7 @@
+const util = require('util');
+
+exports.exec = util.promisify(require('child_process').exec);
+
 exports.parseBody = async function (req) {
   return new Promise((resolve, reject) => {
     const chuncks = [];

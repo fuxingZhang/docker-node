@@ -9,5 +9,5 @@ const server = http.createServer(router);
 server.timeout = 0;
 
 server.listen(port, hostname, () => {
-  console.log(`Server running on port:${port}/`);
+  console.log(`Server running on port:${port}`);
 });

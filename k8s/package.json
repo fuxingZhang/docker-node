@@ -13,7 +13,6 @@
   "author": "Zhang Fu Xing <502545703@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@zhangfuxing/http": "^4.4.0",
     "minio": "^7.0.16"
   }
 }

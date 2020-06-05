@@ -34,6 +34,9 @@ async function router(req, res) {
 
       await upload(filepath, imageName, minio);
       res.write(`upload: ${name}`);
+
+      await exec(`docker rmi -f ${tag}`);
+      res.write(`remove image: ${name}`);
     }
 
     res.end('over');
